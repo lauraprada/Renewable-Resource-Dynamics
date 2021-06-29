@@ -1,0 +1,1185 @@
+{% extends "global/Page.html" %}
+{% load static otree %}
+
+{% block title %}
+	Instrucciones generales
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+
+/********************** EFECTO DE PARPADEAR DE TALBA *******************/
+/* The animation code */
+@keyframes example {
+    0%   {background-color: #80bfff;}
+    50%  {background-color: #ffcc99;}
+    100% {background-color: #80bfff;}
+}
+
+/* The element to apply the animation to */
+.elegidoParpadear {
+    animation-name: example;
+    animation-iteration-count: 1000;
+    animation-duration: 2s;
+}
+
+/************************** FIN DE EFECTO DE PARPADEAR ****************/
+
+/******************************** ESTILO DE LA TABLA DE CONTRATO *******************/
+#contrato {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+}
+
+#contrato td, #contrato th {
+    border: 1px solid #ddd;
+    padding: 1px;
+    height: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#contrato td:nth-child(even){background-color: #f2f2f2;}
+
+#contrato td:hover {background-color: #ddd;}
+
+#contrato th {
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #000066;
+    color: white;
+}
+
+  @media only screen and (max-width: 500px) {
+    #contrato{
+    width: 90%;
+    font-size: 8px;
+  }
+  }
+
+.enElLago{
+    background-color:#80bfff !important;
+}
+
+.pescado{
+    background-color:#ff9999 !important;
+}
+/********************************FIN DE ESTILO DE LA TABLA DE CONTRATO *******************/
+	
+	.imagenInicio{
+		width: 50%; height: auto; display: block; margin-left: auto; margin-right: auto;
+	}
+
+	@media only screen and (max-width: 700px) {
+		.imagenInicio{
+		width: 90%; height: auto; display: block; margin-left: auto; margin-right: auto;
+	}
+
+</style>
+
+<div class="card bg-light instructions">
+	<h4>Bienvenida</h4>
+
+	<p>Gracias por participar. La actividad tomará cerca de 20 minutos.<br> Este ejercicio es una forma diferente de aprender sobre la economía de los recursos naturales.<br> 
+
+
+      {% if planificador %}
+        Usted es la única persona en este grupo (el grupo tiene 1 persona en total).<br> La idea es recrear una situación en que un pescador toma decisiones sobre el uso de los recursos de una pesquería.<br>
+      {% elif planificador == False %}
+        Usted ha sido asignado a un grupo con otras 3 personas (el grupo tiene 4 personas en total).<br> La idea es recrear una situación en que varios pescadores toman decisiones sobre el uso de los recursos de una pesquería.<br> 
+      {% endif %}
+
+
+    
+
+
+
+    Es <b>muy importante</b> que no converse con otras personas durante el ejercicio.<br></p>
+<hr>
+	<h4> Instrucciones de pesca </h4>
+	<p>Usted participará por varios periodos de tiempo equivalentes a semanas de trabajo.<br> Cada semana usted puede realizar 
+
+    {% if planificador %}
+    <b>entre cuatro y doce</b>
+    {% elif planificador == False %}
+    <b>entre uno y tres</b>
+    {% endif %}
+     
+
+
+
+    viajes de pesca dentro de un <b>LAGO.</b></p>
+
+	{% if deterministico %}
+	<p>Cada viaje de pesca que usted realice le dará <b>3 UNIDADES DE PESCADO</b>.</p>
+	{% else %}
+		
+	<p>Cada viaje de pesca que usted realice puede ser <b>BUENO</b>, <b>NORMAL</b> o <b>MALO</b>.<br>
+	Un viaje <b>BUENO</b> de pesca le dará <b>5 UNIDADES DE PESCADO</b>.<br>
+	Un viaje <b>NORMAL</b> de pesca le dará <b>3 UNIDADES DE PESCADO</b>.<br>
+	Un viaje <b>MALO</b> de pesca le dará <b>1 UNIDAD DE PESCADO</b>.<br>
+	Un viaje BUENO, NORMAL y MALO, tienen la misma probabilidad de ocurrir.</p>
+
+
+	{% endif %}
+
+	{% if planificador %}
+    
+    {% elif planificador == False %}
+    <p>Ningún otro miembro de su grupo sabrá cuántos viajes de pesca realizó usted cada semana.</p>
+    {% endif %}
+
+	
+	{% if deterministico == False %}
+	<p>Los miembros de su grupo tampoco sabrán si cada viaje de pesca suyo fue BUENO, NORMAL o MALO.</p>
+	{% endif %}
+<hr>
+	<h4>El lago</h4>
+
+	<p>Las <b>UNIDADES DE PESCADO</b> que usted 
+
+    {% if planificador %}
+    pesque
+    {% elif planificador == False %}
+    y los otros miembros de su grupo pesquen 
+    {% endif %}
+
+
+    
+
+
+    cada semana serán descontadas de un <b>LAGO</b> que tiene inicialmente <b>100 peces</b>.<br> 
+Los peces que queden al inicio de cada semana (antes de su decisión de viajes de pesca) <b>se REPRODUCIRÁN</b> de acuerdo al siguiente diagrama:
+</p>
+
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <!-- *********************************** TABLA **************************** -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <table id ="contrato">
+    <tr>
+      <th style="text-align: center; vertical-align: middle;" colspan="17">Crecimiento</th>
+    </tr>
+
+    <tr>
+      <th>+0</th>
+      <th>+1</th>
+      <th>+2</th>
+      <th>+3</th>
+      <th>+4</th>
+      <th>+5</th>
+      <th>+6</th>
+      <th>+7</th>
+      <th>+8</th>
+      <th>+7</th>
+      <th>+6</th>
+      <th>+5</th>
+      <th>+4</th>
+      <th>+3</th>
+      <th>+2</th>
+      <th>+1</th>
+      <th>+0</th>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 57 %}
+        <td class="elegidoParpadear">57</td>
+      {% elif stock < 57 %}
+        <td class="pescado">57</td>
+      {% elif stock > 57 %}
+        <td class="enElLago">57</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 56 %}
+        <td class="elegidoParpadear">56</td>
+      {% elif stock < 56 %}
+        <td class="pescado">56</td>
+      {% elif stock > 56 %}
+        <td class="enElLago">56</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 55 %}
+        <td class="elegidoParpadear">55</td>
+      {% elif stock < 55 %}
+        <td class="pescado">55</td>
+      {% elif stock > 55 %}
+        <td class="enElLago">55</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      
+      {% if stock == 43 %}
+        <td class="elegidoParpadear">43</td>
+      {% elif stock < 43 %}
+        <td class="pescado">43</td>
+      {% elif stock > 43 %}
+        <td class="enElLago">43</td>
+      {% endif %}
+
+      {% if stock == 54 %}
+        <td class="elegidoParpadear">54</td>
+      {% elif stock < 54 %}
+        <td class="pescado">54</td>
+      {% elif stock > 54 %}
+        <td class="enElLago">54</td>
+      {% endif %}
+
+      {% if stock == 68 %}
+        <td class="elegidoParpadear">68</td>
+      {% elif stock < 68 %}
+        <td class="pescado">68</td>
+      {% elif stock > 68 %}
+        <td class="enElLago">68</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 42 %}
+        <td class="elegidoParpadear">42</td>
+      {% elif stock < 42 %}
+        <td class="pescado">42</td>
+      {% elif stock > 42 %}
+        <td class="enElLago">42</td>
+      {% endif %}
+      {% if stock == 53 %}
+        <td class="elegidoParpadear">53</td>
+      {% elif stock < 53 %}
+        <td class="pescado">53</td>
+      {% elif stock > 53 %}
+        <td class="enElLago">53</td>
+      {% endif %}
+      {% if stock == 67 %}
+        <td class="elegidoParpadear">67</td>
+      {% elif stock < 67 %}
+        <td class="pescado">67</td>
+      {% elif stock > 67 %}
+        <td class="enElLago">67</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 41 %}
+        <td class="elegidoParpadear">41</td>
+      {% elif stock < 41 %}
+        <td class="pescado">41</td>
+      {% elif stock > 41 %}
+        <td class="enElLago">41</td>
+      {% endif %}
+      {% if stock == 52 %}
+        <td class="elegidoParpadear">52</td>
+      {% elif stock < 52 %}
+        <td class="pescado">52</td>
+      {% elif stock > 52 %}
+        <td class="enElLago">52</td>
+      {% endif %}
+      {% if stock == 66 %}
+        <td class="elegidoParpadear">66</td>
+      {% elif stock < 66 %}
+        <td class="pescado">66</td>
+      {% elif stock > 66 %}
+        <td class="enElLago">66</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 40 %}
+        <td class="elegidoParpadear">40</td>
+      {% elif stock < 40 %}
+        <td class="pescado">40</td>
+      {% elif stock > 40 %}
+        <td class="enElLago">40</td>
+      {% endif %}
+      {% if stock == 51 %}
+        <td class="elegidoParpadear">51</td>
+      {% elif stock < 51 %}
+        <td class="pescado">51</td>
+      {% elif stock > 51 %}
+        <td class="enElLago">51</td>
+      {% endif %}
+      {% if stock == 65 %}
+        <td class="elegidoParpadear">65</td>
+      {% elif stock < 65 %}
+        <td class="pescado">65</td>
+      {% elif stock > 65 %}
+        <td class="enElLago">65</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 32 %}
+        <td class="elegidoParpadear">32</td>
+      {% elif stock < 32 %}
+        <td class="pescado">32</td>
+      {% elif stock > 32 %}
+        <td class="enElLago">32</td>
+      {% endif %}
+      {% if stock == 39 %}
+        <td class="elegidoParpadear">39</td>
+      {% elif stock < 39 %}
+        <td class="pescado">39</td>
+      {% elif stock > 39 %}
+        <td class="enElLago">39</td>
+      {% endif %}
+      {% if stock == 50 %}
+        <td class="elegidoParpadear">50</td>
+      {% elif stock < 50 %}
+        <td class="pescado">50</td>
+      {% elif stock > 50 %}
+        <td class="enElLago">50</td>
+      {% endif %}
+      {% if stock == 64 %}
+        <td class="elegidoParpadear">64</td>
+      {% elif stock < 64 %}
+        <td class="pescado">64</td>
+      {% elif stock > 64 %}
+        <td class="enElLago">64</td>
+      {% endif %}
+      {% if stock == 75 %}
+        <td class="elegidoParpadear">75</td>
+      {% elif stock < 75 %}
+        <td class="pescado">75</td>
+      {% elif stock > 75 %}
+        <td class="enElLago">75</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 25 %}
+        <td class="elegidoParpadear">25</td>
+      {% elif stock < 25 %}
+        <td class="pescado">25</td>
+      {% elif stock > 25 %}
+        <td class="enElLago">25</td>
+      {% endif %}
+      {% if stock == 31 %}
+        <td class="elegidoParpadear">31</td>
+      {% elif stock < 31 %}
+        <td class="pescado">31</td>
+      {% elif stock > 31 %}
+        <td class="enElLago">31</td>
+      {% endif %}
+      {% if stock == 38 %}
+        <td class="elegidoParpadear">38</td>
+      {% elif stock < 38 %}
+        <td class="pescado">38</td>
+      {% elif stock > 38 %}
+        <td class="enElLago">38</td>
+      {% endif %}
+      {% if stock == 49 %}
+        <td class="elegidoParpadear">49</td>
+      {% elif stock < 49 %}
+        <td class="pescado">49</td>
+      {% elif stock > 49 %}
+        <td class="enElLago">49</td>
+      {% endif %}
+      {% if stock == 63 %}
+        <td class="elegidoParpadear">63</td>
+      {% elif stock < 63 %}
+        <td class="pescado">63</td>
+      {% elif stock > 63 %}
+        <td class="enElLago">63</td>
+      {% endif %}
+      {% if stock == 74 %}
+        <td class="elegidoParpadear">74</td>
+      {% elif stock < 74 %}
+        <td class="pescado">74</td>
+      {% elif stock > 74 %}
+        <td class="enElLago">74</td>
+      {% endif %}
+      {% if stock == 81 %}
+        <td class="elegidoParpadear">81</td>
+      {% elif stock < 81 %}
+        <td class="pescado">81</td>
+      {% elif stock > 81 %}
+        <td class="enElLago">81</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% if stock == 19 %}
+        <td class="elegidoParpadear">19</td>
+      {% elif stock < 19 %}
+        <td class="pescado">19</td>
+      {% elif stock > 19 %}
+        <td class="enElLago">19</td>
+      {% endif %}       
+      {% if stock == 24 %}
+        <td class="elegidoParpadear">24</td>
+      {% elif stock < 24 %}
+        <td class="pescado">24</td>
+      {% elif stock > 24 %}
+        <td class="enElLago">24</td>
+      {% endif %}
+      {% if stock == 30 %}
+        <td class="elegidoParpadear">30</td>
+      {% elif stock < 30 %}
+        <td class="pescado">30</td>
+      {% elif stock > 30 %}
+        <td class="enElLago">30</td>
+      {% endif %}
+      {% if stock == 37 %}
+        <td class="elegidoParpadear">37</td>
+      {% elif stock < 37 %}
+        <td class="pescado">37</td>
+      {% elif stock > 37 %}
+        <td class="enElLago">37</td>
+      {% endif %}
+      {% if stock == 48 %}
+        <td class="elegidoParpadear">48</td>
+      {% elif stock < 48 %}
+        <td class="pescado">48</td>
+      {% elif stock > 48 %}
+        <td class="enElLago">48</td>
+      {% endif %}
+      {% if stock == 62 %}
+        <td class="elegidoParpadear">62</td>
+      {% elif stock < 62 %}
+        <td class="pescado">62</td>
+      {% elif stock > 62 %}
+        <td class="enElLago">62</td>
+      {% endif %}
+      {% if stock == 73 %}
+        <td class="elegidoParpadear">73</td>
+      {% elif stock < 73 %}
+        <td class="pescado">73</td>
+      {% elif stock > 73 %}
+        <td class="enElLago">73</td>
+      {% endif %}
+      {% if stock == 80 %}
+        <td class="elegidoParpadear">80</td>
+      {% elif stock < 80 %}
+        <td class="pescado">80</td>
+      {% elif stock > 80 %}
+        <td class="enElLago">80</td>
+      {% endif %}
+      {% if stock == 86 %}
+        <td class="elegidoParpadear">86</td>
+      {% elif stock < 86 %}
+        <td class="pescado">86</td>
+      {% elif stock > 86 %}
+        <td class="enElLago">86</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      {% if stock == 10 %}
+        <td class="elegidoParpadear">10</td>
+      {% elif stock < 10 %}
+        <td class="pescado">10</td>
+      {% elif stock > 10 %}
+        <td class="enElLago">10</td>
+      {% endif %}
+      {% if stock == 14 %}
+        <td class="elegidoParpadear">14</td>
+      {% elif stock < 14 %}
+        <td class="pescado">14</td>
+      {% elif stock > 14 %}
+        <td class="enElLago">14</td>
+      {% endif %}
+      {% if stock == 18 %}
+        <td class="elegidoParpadear">18</td>
+      {% elif stock < 18 %}
+        <td class="pescado">18</td>
+      {% elif stock > 18 %}
+        <td class="enElLago">18</td>
+      {% endif %}       
+      {% if stock == 23 %}
+        <td class="elegidoParpadear">23</td>
+      {% elif stock < 23 %}
+        <td class="pescado">23</td>
+      {% elif stock > 23 %}
+        <td class="enElLago">23</td>
+      {% endif %}
+      {% if stock == 29 %}
+        <td class="elegidoParpadear">29</td>
+      {% elif stock < 29 %}
+        <td class="pescado">29</td>
+      {% elif stock > 29 %}
+        <td class="enElLago">29</td>
+      {% endif %}
+      {% if stock == 36 %}
+        <td class="elegidoParpadear">36</td>
+      {% elif stock < 36 %}
+        <td class="pescado">36</td>
+      {% elif stock > 36 %}
+        <td class="enElLago">36</td>
+      {% endif %}
+      {% if stock == 47 %}
+        <td class="elegidoParpadear">47</td>
+      {% elif stock < 47 %}
+        <td class="pescado">47</td>
+      {% elif stock > 47 %}
+        <td class="enElLago">47</td>
+      {% endif %}
+      {% if stock == 61 %}
+        <td class="elegidoParpadear">61</td>
+      {% elif stock < 61 %}
+        <td class="pescado">61</td>
+      {% elif stock > 61 %}
+        <td class="enElLago">61</td>
+      {% endif %}
+      {% if stock == 72 %}
+        <td class="elegidoParpadear">72</td>
+      {% elif stock < 72 %}
+        <td class="pescado">72</td>
+      {% elif stock > 72 %}
+        <td class="enElLago">72</td>
+      {% endif %}
+      {% if stock == 79 %}
+        <td class="elegidoParpadear">79</td>
+      {% elif stock < 79 %}
+        <td class="pescado">79</td>
+      {% elif stock > 79 %}
+        <td class="enElLago">79</td>
+      {% endif %}
+      {% if stock == 85 %}
+        <td class="elegidoParpadear">85</td>
+      {% elif stock < 85 %}
+        <td class="pescado">85</td>
+      {% elif stock > 85 %}
+        <td class="enElLago">85</td>
+      {% endif %}
+      {% if stock == 90 %}
+        <td class="elegidoParpadear">90</td>
+      {% elif stock < 90 %}
+        <td class="pescado">90</td>
+      {% elif stock > 90 %}
+        <td class="enElLago">90</td>
+      {% endif %}
+      {% if stock == 94 %}
+        <td class="elegidoParpadear">94</td>
+      {% elif stock < 94 %}
+        <td class="pescado">94</td>
+      {% elif stock > 94 %}
+        <td class="enElLago">94</td>
+      {% endif %}
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      {% if stock == 3 %}
+        <td class="elegidoParpadear">3</td>
+      {% elif stock < 3 %}
+        <td class="pescado">3</td>
+      {% elif stock > 3 %}
+        <td class="enElLago">3</td>
+      {% endif %}
+      {% if stock == 6 %}
+        <td class="elegidoParpadear">6</td>
+      {% elif stock < 6 %}
+        <td class="pescado">6</td>
+      {% elif stock > 6 %}
+        <td class="enElLago">6</td>
+      {% endif %}
+      {% if stock == 9 %}
+        <td class="elegidoParpadear">9</td>
+      {% elif stock < 9 %}
+        <td class="pescado">9</td>
+      {% elif stock > 9 %}
+        <td class="enElLago">9</td>
+      {% endif %}
+      {% if stock == 13 %}
+        <td class="elegidoParpadear">13</td>
+      {% elif stock < 13 %}
+        <td class="pescado">13</td>
+      {% elif stock > 13 %}
+        <td class="enElLago">13</td>
+      {% endif %}
+      {% if stock == 17 %}
+        <td class="elegidoParpadear">17</td>
+      {% elif stock < 17 %}
+        <td class="pescado">17</td>
+      {% elif stock > 17 %}
+        <td class="enElLago">17</td>
+      {% endif %}       
+      {% if stock == 22 %}
+        <td class="elegidoParpadear">22</td>
+      {% elif stock < 22 %}
+        <td class="pescado">22</td>
+      {% elif stock > 22 %}
+        <td class="enElLago">22</td>
+      {% endif %}
+      {% if stock == 28 %}
+        <td class="elegidoParpadear">28</td>
+      {% elif stock < 28 %}
+        <td class="pescado">28</td>
+      {% elif stock > 28 %}
+        <td class="enElLago">28</td>
+      {% endif %}
+      {% if stock == 35 %}
+        <td class="elegidoParpadear">35</td>
+      {% elif stock < 35 %}
+        <td class="pescado">35</td>
+      {% elif stock > 35 %}
+        <td class="enElLago">35</td>
+      {% endif %}
+      {% if stock == 46 %}
+        <td class="elegidoParpadear">46</td>
+      {% elif stock < 46 %}
+        <td class="pescado">46</td>
+      {% elif stock > 46 %}
+        <td class="enElLago">46</td>
+      {% endif %}
+      {% if stock == 60 %}
+        <td class="elegidoParpadear">60</td>
+      {% elif stock < 60 %}
+        <td class="pescado">60</td>
+      {% elif stock > 60 %}
+        <td class="enElLago">60</td>
+      {% endif %}
+      {% if stock == 71 %}
+        <td class="elegidoParpadear">71</td>
+      {% elif stock < 71 %}
+        <td class="pescado">71</td>
+      {% elif stock > 71 %}
+        <td class="enElLago">71</td>
+      {% endif %}
+      {% if stock == 78 %}
+        <td class="elegidoParpadear">78</td>
+      {% elif stock < 78 %}
+        <td class="pescado">78</td>
+      {% elif stock > 78 %}
+        <td class="enElLago">78</td>
+      {% endif %}
+      {% if stock == 84 %}
+        <td class="elegidoParpadear">84</td>
+      {% elif stock < 84 %}
+        <td class="pescado">84</td>
+      {% elif stock > 84 %}
+        <td class="enElLago">84</td>
+      {% endif %}
+      {% if stock == 89 %}
+        <td class="elegidoParpadear">89</td>
+      {% elif stock < 89 %}
+        <td class="pescado">89</td>
+      {% elif stock > 89 %}
+        <td class="enElLago">89</td>
+      {% endif %}
+      {% if stock == 93 %}
+        <td class="elegidoParpadear">93</td>
+      {% elif stock < 93 %}
+        <td class="pescado">93</td>
+      {% elif stock > 93 %}
+        <td class="enElLago">93</td>
+      {% endif %}
+      {% if stock == 97 %}
+        <td class="elegidoParpadear">97</td>
+      {% elif stock < 97 %}
+        <td class="pescado">97</td>
+      {% elif stock > 97 %}
+        <td class="enElLago">97</td>
+      {% endif %}
+      {% if stock == 100 %}
+        <td class="elegidoParpadear">100</td>
+      {% elif stock < 100 %}
+        <td class="pescado">100</td>
+      {% elif stock > 100 %}
+        <td class="enElLago">100</td>
+      {% endif %}
+    </tr>
+
+    <tr>
+      {% if stock == 2 %}
+        <td class="elegidoParpadear">2</td>
+      {% elif stock < 2 %}
+        <td class="pescado">2</td>
+      {% elif stock > 2 %}
+        <td class="enElLago">2</td>
+      {% endif %}
+      {% if stock == 5 %}
+        <td class="elegidoParpadear">5</td>
+      {% elif stock < 5 %}
+        <td class="pescado">5</td>
+      {% elif stock > 5 %}
+        <td class="enElLago">5</td>
+      {% endif %}
+      {% if stock == 8 %}
+        <td class="elegidoParpadear">8</td>
+      {% elif stock < 8 %}
+        <td class="pescado">8</td>
+      {% elif stock > 8 %}
+        <td class="enElLago">8</td>
+      {% endif %}
+      {% if stock == 12 %}
+        <td class="elegidoParpadear">12</td>
+      {% elif stock < 12 %}
+        <td class="pescado">12</td>
+      {% elif stock > 12 %}
+        <td class="enElLago">12</td>
+      {% endif %}
+      {% if stock == 16 %}
+        <td class="elegidoParpadear">16</td>
+      {% elif stock < 16 %}
+        <td class="pescado">16</td>
+      {% elif stock > 16 %}
+        <td class="enElLago">16</td>
+      {% endif %}       
+      {% if stock == 21 %}
+        <td class="elegidoParpadear">21</td>
+      {% elif stock < 21 %}
+        <td class="pescado">21</td>
+      {% elif stock > 21 %}
+        <td class="enElLago">21</td>
+      {% endif %}
+      {% if stock == 27 %}
+        <td class="elegidoParpadear">27</td>
+      {% elif stock < 27 %}
+        <td class="pescado">27</td>
+      {% elif stock > 27 %}
+        <td class="enElLago">27</td>
+      {% endif %}
+      {% if stock == 34 %}
+        <td class="elegidoParpadear">34</td>
+      {% elif stock < 34 %}
+        <td class="pescado">34</td>
+      {% elif stock > 34 %}
+        <td class="enElLago">34</td>
+      {% endif %}
+      {% if stock == 45 %}
+        <td class="elegidoParpadear">45</td>
+      {% elif stock < 45 %}
+        <td class="pescado">45</td>
+      {% elif stock > 45 %}
+        <td class="enElLago">45</td>
+      {% endif %}
+      {% if stock == 59 %}
+        <td class="elegidoParpadear">59</td>
+      {% elif stock < 59 %}
+        <td class="pescado">59</td>
+      {% elif stock > 59 %}
+        <td class="enElLago">59</td>
+      {% endif %}
+      {% if stock == 70 %}
+        <td class="elegidoParpadear">70</td>
+      {% elif stock < 70 %}
+        <td class="pescado">70</td>
+      {% elif stock > 70 %}
+        <td class="enElLago">70</td>
+      {% endif %}
+      {% if stock == 77 %}
+        <td class="elegidoParpadear">77</td>
+      {% elif stock < 77 %}
+        <td class="pescado">77</td>
+      {% elif stock > 77 %}
+        <td class="enElLago">77</td>
+      {% endif %}
+      {% if stock == 83 %}
+        <td class="elegidoParpadear">83</td>
+      {% elif stock < 83 %}
+        <td class="pescado">83</td>
+      {% elif stock > 83 %}
+        <td class="enElLago">83</td>
+      {% endif %}
+      {% if stock == 88 %}
+        <td class="elegidoParpadear">88</td>
+      {% elif stock < 88 %}
+        <td class="pescado">88</td>
+      {% elif stock > 88 %}
+        <td class="enElLago">88</td>
+      {% endif %}
+      {% if stock == 92 %}
+        <td class="elegidoParpadear">92</td>
+      {% elif stock < 92 %}
+        <td class="pescado">92</td>
+      {% elif stock > 92 %}
+        <td class="enElLago">92</td>
+      {% endif %}
+      {% if stock == 96 %}
+        <td class="elegidoParpadear">96</td>
+      {% elif stock < 96 %}
+        <td class="pescado">96</td>
+      {% elif stock > 96 %}
+        <td class="enElLago">96</td>
+      {% endif %}
+      {% if stock == 99 %}
+        <td class="elegidoParpadear">99</td>
+      {% elif stock < 99 %}
+        <td class="pescado">99</td>
+      {% elif stock > 99 %}
+        <td class="enElLago">99</td>
+      {% endif %}
+    </tr>
+
+    <tr>
+      {% if stock == 1 %}
+        <td class="elegidoParpadear">1</td>
+      {% elif stock < 1 %}
+        <td class="pescado">1</td>
+      {% elif stock > 1 %}
+        <td class="enElLago">1</td>
+      {% endif %}
+      {% if stock == 4 %}
+        <td class="elegidoParpadear">4</td>
+      {% elif stock < 4 %}
+        <td class="pescado">4</td>
+      {% elif stock > 4 %}
+        <td class="enElLago">4</td>
+      {% endif %}
+      {% if stock == 7 %}
+        <td class="elegidoParpadear">7</td>
+      {% elif stock < 7 %}
+        <td class="pescado">7</td>
+      {% elif stock > 7 %}
+        <td class="enElLago">7</td>
+      {% endif %}
+      {% if stock == 11 %}
+        <td class="elegidoParpadear">11</td>
+      {% elif stock < 11 %}
+        <td class="pescado">11</td>
+      {% elif stock > 11 %}
+        <td class="enElLago">11</td>
+      {% endif %}
+      {% if stock == 15 %}
+        <td class="elegidoParpadear">15</td>
+      {% elif stock < 15 %}
+        <td class="pescado">15</td>
+      {% elif stock > 15 %}
+        <td class="enElLago">15</td>
+      {% endif %}       
+      {% if stock == 20 %}
+        <td class="elegidoParpadear">20</td>
+      {% elif stock < 20 %}
+        <td class="pescado">20</td>
+      {% elif stock > 20 %}
+        <td class="enElLago">20</td>
+      {% endif %}
+      {% if stock == 26 %}
+        <td class="elegidoParpadear">26</td>
+      {% elif stock < 26 %}
+        <td class="pescado">26</td>
+      {% elif stock > 26 %}
+        <td class="enElLago">26</td>
+      {% endif %}
+      {% if stock == 33 %}
+        <td class="elegidoParpadear">33</td>
+      {% elif stock < 33 %}
+        <td class="pescado">33</td>
+      {% elif stock > 33 %}
+        <td class="enElLago">33</td>
+      {% endif %}
+      {% if stock == 44 %}
+        <td class="elegidoParpadear">44</td>
+      {% elif stock < 44 %}
+        <td class="pescado">44</td>
+      {% elif stock > 44 %}
+        <td class="enElLago">44</td>
+      {% endif %}
+      {% if stock == 58 %}
+        <td class="elegidoParpadear">58</td>
+      {% elif stock < 58 %}
+        <td class="pescado">58</td>
+      {% elif stock > 58 %}
+        <td class="enElLago">58</td>
+      {% endif %}
+      {% if stock == 69 %}
+        <td class="elegidoParpadear">69</td>
+      {% elif stock < 69 %}
+        <td class="pescado">69</td>
+      {% elif stock > 69 %}
+        <td class="enElLago">69</td>
+      {% endif %}
+      {% if stock == 76 %}
+        <td class="elegidoParpadear">76</td>
+      {% elif stock < 76 %}
+        <td class="pescado">76</td>
+      {% elif stock > 76 %}
+        <td class="enElLago">76</td>
+      {% endif %}
+      {% if stock == 82 %}
+        <td class="elegidoParpadear">82</td>
+      {% elif stock < 82 %}
+        <td class="pescado">82</td>
+      {% elif stock > 82 %}
+        <td class="enElLago">82</td>
+      {% endif %}
+      {% if stock == 87 %}
+        <td class="elegidoParpadear">87</td>
+      {% elif stock < 87 %}
+        <td class="pescado">87</td>
+      {% elif stock > 87 %}
+        <td class="enElLago">87</td>
+      {% endif %}
+      {% if stock == 91 %}
+        <td class="elegidoParpadear">91</td>
+      {% elif stock < 91 %}
+        <td class="pescado">91</td>
+      {% elif stock > 91 %}
+        <td class="enElLago">91</td>
+      {% endif %}
+      {% if stock == 95 %}
+        <td class="elegidoParpadear">95</td>
+      {% elif stock < 95 %}
+        <td class="pescado">95</td>
+      {% elif stock > 95 %}
+        <td class="enElLago">95</td>
+      {% endif %}
+      {% if stock == 98 %}
+        <td class="elegidoParpadear">98</td>
+      {% elif stock < 98 %}
+        <td class="pescado">98</td>
+      {% elif stock > 98 %}
+        <td class="enElLago">98</td>
+      {% endif %}
+    </tr>
+
+    <tr>
+      <td style="background-color:#80bfff !important; text-align: center; vertical-align: middle;" colspan="17">Recurso restante</td>
+    </tr>
+
+  </table>
+  <p></p>
+  <p></p>
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************* FIN DE TABLA ********************** -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+  <!-- ********************************************************************************* -->
+
+
+<h5><i>Ejemplo:</i></h5>
+<p>En la primera semana la pesca
+
+    {% if planificador %}
+    {% elif planificador == False %}
+     total <b>entre los cuatro jugadores</b>
+    {% endif %}
+
+   es de <b><i>20 UNIDADES DE PESCADO</i></b>.</br>Esto significa que el lago tendrá <b>80 peces</b> antes de comenzar la siguiente semana.<br>
+De acuerdo al diagrama, si hay 80 peces <b>se reproducirán 5 peces más</b>.<br> 
+Para la semana 2 habrá <b>85 peces</b>.<br></p>
+
+
+
+<hr>
+
+<h4>Ganancias</h4>
+<p>Cada <b>UNIDAD DE PESCADO</b> capturada durante el juego será pagada en puntos.</p>
+
+{% if precio_fijo %}
+
+<p> El precio pagado será de <b>{{ precio_fijo_valor }}</b> por unidad de pescado.</p>
+
+{% else %}
+
+<p>El precio en puntos depende de la pesca total del grupo cada semana.</p>
+<p>Esta es la tabla de precios:</p>
+
+<table id="contrato" >
+        <tr>
+          <th>Extracción total del grupo</th>
+          <th>4-12</th>
+          <th>13-20</th>
+          <th>21-28</th>
+          <th>29-40</th>
+          <th>41-60</th>
+        </tr>
+
+        <tr>
+          <td>Precio por unidad</td>
+          <td>5 puntos</td>
+          <td>4 puntos</td>
+          <td>3 puntos</td>
+          <td>2 puntos</td>
+          <td>1 puntos</td>
+        </tr>
+      </table>
+
+{% endif %}
+
+<hr>
+
+<h4>Terminación del juego</h4>
+
+<p>Hay tres reglas de terminación: </p>
+<ol>
+	<li> Si 
+
+    {% if planificador %}
+    se
+    {% elif planificador == False %}
+    el grupo
+    {% endif %}
+
+     llega a la <b>semana 10</b> y el lago aún tiene más de 12 peces. </li>
+	<li>Si al comienzo de cualquier semana el lago tiene <b>menos de 12 peces</b>. </li>
+	<li>Si la pesca total de una semana <b>excede el número de peces</b> que quedan en el lago. </li>
+</ol>
+
+    {% if planificador %}
+    <p>En este último caso, se extraen los peces restantes en el lago.</p>
+    {% elif planificador == False %}
+    <p>En este último caso, cada pescador recibe una cantidad de los peces restantes proporcional a la que habría sido de la pesca total.</p>
+    {% endif %}
+
+
+
+
+
+<p>
+<b><i>Por ejemplo</i></b>, suponga que la pesca total del grupo fue <b>24 UNIDADES DE PESCADO</b>. Sin embargo, en el lago <b>solo quedan 20 peces</b>.</p>
+<p>
+El juego se terminará y usted recibirá <b> 20 UNIDADES DE PESCADO.</p>
+
+{% if precio_fijo %}
+<p>Por otro lado, cada unidad será pagada a <b>2 puntos</b>, como se mencionó anteriormente.<br>
+{% else %}
+<p>El precio, sin embargo, se determinará con la tabla de precios de acuerdo a la pesca total.<br>
+Es decir, en este caso cada unidad será pagada a <b>3 puntos</b>.<br>
+</p>
+
+{% endif %}
+</div> <!-- Instrucciones -->
+
+{% next_button %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "global/Page.html" %}
+{% load static otree %}
+
+{% block title %}
+	Recapitulación
+{% endblock %}
+
+{% block content %}
+
+<p>Usted capturó a lo largo de todo el juego, en total, <b>{{ capturas }} peces</b>.</p>
+<p>Sus ganancias totales fueron <b>{{ ganancias }}</b>.</p>
+<p>Su grupo logró sostener el lago con peces por <b>{{ fin }} semanas</b>, con usted como tomador de decisiones único.</p>
+<p>En total, su grupo dirigido por usted capturó <b>{{ total_capturas_grupo }} peces</b>. El máximo de peces que podrían haber capturado como grupo era 162. Por lo tanto, su eficiencia en términos de pesca fue <b>{{ eficiencia }}% </b></p>
+
+
+{% if precio_fijo == False %}
+
+<p>En total, su grupo comandado por usted, obtuvo ganancias de <b>{{total_ganancias_grupo}}</b>. Las ganancias máximas que podrían haber obtenido eran 666 puntos. Por lo tanto, su eficiencia en términos de ganancias fue del <b>{{ eficiencia_ganancias }}%</b></p>
+
+{% endif %}
+
+<p>Gracias por su participación.</p>
+
+{% endblock %}

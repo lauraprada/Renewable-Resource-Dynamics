@@ -1,0 +1,130 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Resultados de la semana {{ ronda }} de pesca:
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+	
+	/******************************** ESTILO DE LA TABLA DE CONTRATO *******************/
+#contrato {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+#contrato td, #contrato th {
+    border: 1px solid #ddd;
+    padding: 4px;
+    height: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#contrato td:nth-child(even){background-color: #f2f2f2;}
+
+#contrato td:hover {background-color: #ddd;}
+
+#contrato th {
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #000066;
+    color: white;
+}
+
+  @media only screen and (max-width: 500px) {
+    #contrato{
+    width: 90%;
+    font-size: 8px;
+  }
+  }
+
+.enElLago{
+    background-color:#80bfff !important;
+}
+
+.pescado{
+    background-color:#ff9999 !important;
+}
+/********************************FIN DE ESTILO DE LA TABLA DE CONTRATO *******************/
+
+</style>
+
+
+<div style="border-style: solid; border-width: 2px;">
+</br>
+	<ul>
+		<li>Su grupo hizo <b>{{ total_esfuerzos }} viajes de pesca</b> en total.</li>
+		<li>El grupo (compuesto exclusivamente por usted)<b>extrajo en total {{ total_extracciones }} peces</b> del lago.
+
+      {% if siguiente == False and razon == "ex_mayor_stock" %} Sin embargo, se intentó extraer más peces de los que quedaban. La extracción total del grupo fue de <b>{{ extracciones_pre_ajuste }} peces</b> originalmente. {% endif %}
+
+      {% if precio_fijo == False %} Por lo que el precio por unidad es <b>{{ precio_unitario }}</b>. </li>
+	</ul>
+
+		<table id="contrato" >
+        <tr>
+          <th>Pesca total</th>
+          <th>4-12</th>
+          <th>13-20</th>
+          <th>21-28</th>
+          <th>29-40</th>
+          <th>41-60</th>
+        </tr>
+
+        <tr>
+          <td>Precio por unidad</td>
+          <td>5 puntos</td>
+          <td>4 puntos</td>
+          <td>3 puntos</td>
+          <td>2 puntos</td>
+          <td>1 puntos</td>
+        </tr>
+      </table>
+</br>
+		{% endif %} 
+	<ul>
+		<li>Usted <b>individualmente</b> hizo <b>{{ mi_esfuerzo }} viajes</b>, y extrajo <b>{{ mi_extraccion }} peces</b>.</li>
+
+		<li>{% if precio_fijo %}El <b>precio por unidad</b> es {{ precio_unitario }}. {% endif %}Por lo tanto, sus ganancias son de <b>{{ ganancias }}</b> esta semana. </li>
+    <li>Tras la extracción del grupo quedaron <b>{{ stock_post_extraccion }} peces</b>. Se reprodujeron <b>{{ crecimiento}} peces</b>.</li>
+		<li>En el lago quedaron <b>{{ stock }} peces</b> después de la reproducción.</li>
+	</ul>
+	</br>
+</div>
+</br>
+{% if siguiente %}
+<p>Hay suficientes peces para pasar a la siguiente semana de pesca.</p>
+    {% next_button %}
+
+{% elif razon == "alerta_ambiental" %}
+
+<p>El juego ha terminado. Hay menos de 12 peces en el lago por lo que se ha declarado una veda para preservar el recurso.</p>
+
+{% next_button %}
+
+{% elif razon == "ex_mayor_stock" %}
+
+<p>El juego ha terminado. La extracción total de esta ronda es más grande que los peces restantes en el lago. Los peces restantes se repartirán proporcionalmente a la intención de extracción de cada miembro de su grupo.</p>
+
+{% next_button %}
+
+{% elif razon == "fin_tiempo" %}
+
+<p>El juego ha terminado. Han logrado llegar a la décima semana de pesca y mantener el recurso a flote. Lograron realizar una pesca sostenible.</p>
+
+{% next_button %}
+
+{% else %}
+
+{% next_button %}
+
+{% endif %}
+
+{% endblock %}
